@@ -38,6 +38,7 @@
   <li class="well well-sm col-sm-8 col-sm-offset-1"><a href="/<%= link.random_hex_string %>"><%= link.short_url %></a></li>
   <div class="form-group">
    <!-- <div class="col-sm-10 col-sm-offset-1"> -->
+      <button type="button" class="btn btn-default">Copy</button>
       <a href="/links/<%= link.id %>/edit" style="padding-left: 5px"><button type="submit" class="btn btn-warning">Edit</button></a>
       <form action="/links/<%= link.id %>/delete" style="display: inline-block">
         <input id="hidden" type="hidden" name="_method" value="delete">
@@ -48,3 +49,15 @@
   <% end %>
 </ol>
 <% end %>
+
+<!-- JavaScript for Clipboard.js | Copy to Clipboard -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+<script>
+  var clipboard = new Clipboard('.btn');
+  clipboard.on('success', function(e) {
+    console.log(e);
+  });
+  clipboard.on('error', function(e) {
+    console.log(e);
+  });
+</script>
