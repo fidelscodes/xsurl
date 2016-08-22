@@ -1,1 +1,24 @@
-
+<h1><%= current_user.username %>'s Dashboard - Edit Link</h1>
+<br>
+<form class="form-horizontal" action="/links/<%= @link.id %>/edit" method="post">
+  <input id="hidden" type="hidden" name="_method" value="patch">
+  <fieldset>
+    <legend>Edit this link - Enter corrected URL</legend>
+    <div class="form-group">
+      <div class="col-sm-10 col-sm-offset-1">
+        <input type="text" class="form-control" name= "url" id="link_url" value="<%= @link.url %>" autofocus required>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-10 col-sm-offset-1">
+        <input type="text" class="form-control" name= "short_url" id="short_url" value="<%= @link.short_url %>" autofocus required disabled>
+      </div>
+    </div>
+    <div class="form-group">
+     <div class="col-sm-10 col-sm-offset-1">
+       <a href="/users/<%= current_user.id %>"><button type="submit" class="btn btn-default">Cancel</button></a>
+       <button type="submit" class="btn btn-primary">Submit</button>
+     </div>
+   </div>
+  </fieldset>
+</form>

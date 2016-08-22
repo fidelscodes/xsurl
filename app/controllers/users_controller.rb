@@ -62,11 +62,18 @@ class UsersController < ApplicationController
   # TODO:
     # ability to edit a link
   get '/links/:id/edit' do
-    erb :'/links/edit'
+    @link = Link.find_by(id: params[:id])
+    if logged_in?
+      erb :'/links/edit'
+    else
+      redirect to '/login'
+    end
   end
 
   patch '/links/:id/edit' do
     @link = Link.find_by(id: params[:id])
+    binding.pry
+    redirect to "/users/#{current_user.id}"
   end
     # ability to delete a link
     # ability to visit link - make sure the url looks like localhost/ueyuerW
