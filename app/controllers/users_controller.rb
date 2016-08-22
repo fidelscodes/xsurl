@@ -14,7 +14,7 @@ class UsersController < ApplicationController
     if params_has_empty_value
       redirect to "/signup"
     end
-    
+
     @user = User.create(params)
     session[:user_id] = @user.id
     flash[:notice] = "Welcome to your dashboard, "
@@ -78,7 +78,6 @@ class UsersController < ApplicationController
   # DELETE a link
   delete '/links/:id/delete' do
     @link = Link.find_by(id: params[:id])
-    @link.destroy
     redirect to "/users/#{current_user.id}"
   end
 
