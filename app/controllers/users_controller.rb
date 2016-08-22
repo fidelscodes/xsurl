@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       redirect to "/signup"
     end
 
-    @user = User.create(params)
+    @user = User.find_or_create_by(params)
     session[:user_id] = @user.id
     flash[:notice] = "Welcome to your dashboard, "
     redirect to "/users/#{current_user.id}"
