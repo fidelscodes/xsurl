@@ -1,4 +1,4 @@
-<h1><%= @user.username %>'s Links</h1>
+<h1><%= @user.username %>'s Dashboard</h1>
 <form class="form-horizontal" action="/links/new" method="post">
   <fieldset>
     <legend>Create a new link</legend>
@@ -15,7 +15,13 @@
      </div>
    </div>
   </fieldset>
-
-  <!-- Display Created Links -->
-
 </form>
+
+<!-- Display Created Links -->
+<h2>Your created links are below:</h2>
+<hr>
+<ol>
+  <% @user.links.each do |link| %>
+  <li class="well well-sm"><%= link.short_url %></li>
+  <% end %>
+</ol>
