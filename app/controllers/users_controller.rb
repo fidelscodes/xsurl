@@ -8,7 +8,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # Create a new user
+  # CREATE a new user
   post '/signup' do
     params_has_empty_value = params.values.any? {|val| val.blank?}
     if params_has_empty_value
@@ -39,7 +39,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # Display a user page
+  # DISPLAY a user page
   get '/users/:id' do
     @user = User.find_by(id: params[:id])
     if logged_in?
@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # Create a new link
+  # CREATE a new link
   post '/links/new' do
     @link = Link.create(params)
     url_field_empty = params[:url].blank?
@@ -59,8 +59,7 @@ class UsersController < ApplicationController
     redirect to "/users/#{current_user.id}"
   end
 
-  # TODO:
-    # ability to edit a link
+  # EDIT a link
   get '/links/:id/edit' do
     @link = Link.find_by(id: params[:id])
     if logged_in?
@@ -72,11 +71,14 @@ class UsersController < ApplicationController
 
   patch '/links/:id/edit' do
     @link = Link.find_by(id: params[:id])
-    binding.pry
     redirect to "/users/#{current_user.id}"
   end
-    # ability to delete a link
-    # ability to visit link - make sure the url looks like localhost/ueyuerW
-      # there's a get action for /:random_hex_string
+
+  # DELETE a link
+  delete '/links/:id/delete' do
+    @link = Link.find_by(id: params[:id])
+    @link.destroy
+    redirect to "/users/#{current_user.id}"
+  end
 
 end
