@@ -55,4 +55,10 @@ class UsersController < ApplicationController
     redirect to "/users/#{current_user.id}"
   end
 
+  # TODO:
+    # ability to edit a link
+    # ability to delete a link
+    # ability to visit link - make sure the url looks like localhost/ueyuerW
+      # there's a get action for /:random_hex_string
+
 end
