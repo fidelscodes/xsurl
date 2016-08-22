@@ -83,8 +83,8 @@ class UsersController < ApplicationController
 
   get '/logout' do
     flash[:notice] = "You've successfully logged out."
-    redirect to '/'
     session.clear
+    redirect to '/'
   end
 
 end
