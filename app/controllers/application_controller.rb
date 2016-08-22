@@ -15,6 +15,17 @@ class ApplicationController < Sinatra::Base
     erb :'index'
   end
 
+  # GET a link and REDIRECT to original url
+  get '/:random_hex_string' do
+    @link = Link.find_by(random_hex_string: params[:random_hex_string])
+    if @link
+      redirect to @link.url
+    else
+      # notify there is no such link
+      redirect to '/'
+    end
+  end
+
   ## Helpers ##
   helpers do
    def current_user
