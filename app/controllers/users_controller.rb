@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   post '/signup' do
-    params_has_empty_value = params.values.any? {|val| val.empty? || val.nil?}
+    params_has_empty_value = params.values.any? {|val| val.blank?}
     if params_has_empty_value
       redirect to "/signup"
     end
@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
     if @user
       session[:user_id] = @user.id
-      erb :"/users/#{@user.id}"
+      redirect to "/users/#{@user.id}"
     else
       flash[:notice] = "Oops! Try again"
       redirect to '/login'
@@ -47,7 +47,11 @@ class UsersController < ApplicationController
   end
 
   post '/links/new' do
-    binding.pry
+    @link = Link.create(params)
+    url_field_empty = params[:url].blank?
+
+    # binding.pry
+    redirect to '/users/:id'
   end
 
 end
