@@ -78,6 +78,7 @@ class UsersController < ApplicationController
   # DELETE a link
   delete '/links/:id/delete' do
     @link = Link.find_by(id: params[:id])
+    @link.destroy
     redirect to "/users/#{current_user.id}"
   end
 
