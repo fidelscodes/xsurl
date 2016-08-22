@@ -17,6 +17,7 @@ class UsersController < ApplicationController
 
     @user = User.create(params)
     session[:user_id] = @user.id
+    flash[:notice] = "Welcome to your dashboard, "
     redirect to "/users/#{current_user.id}"
   end
 
@@ -39,7 +40,7 @@ class UsersController < ApplicationController
     end
   end
 
-  # DISPLAY a user page
+  # DISPLAY a user page / USERS/SHOW
   get '/users/:id' do
     @user = User.find_by(id: params[:id])
     if logged_in?
@@ -56,6 +57,7 @@ class UsersController < ApplicationController
     @link.create_short_url # no need to save, this method saves the instance
     current_user.links << @link
 
+    # flash[:notice] = "Successfully created a new xsURL!"
     redirect to "/users/#{current_user.id}"
   end
 
@@ -79,6 +81,12 @@ class UsersController < ApplicationController
     @link = Link.find_by(id: params[:id])
     @link.destroy
     redirect to "/users/#{current_user.id}"
+  end
+
+  get '/logout' do
+    flash[:notice] = "You've successfully logged out."
+    redirect to '/'
+    session.clear
   end
 
 end
