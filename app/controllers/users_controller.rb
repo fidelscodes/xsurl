@@ -28,8 +28,13 @@ class UsersController < ApplicationController
 
   post '/login' do
     @user = User.find_by(username: params[:username])
-    session[:user_id] = @user.id
-    erb :"/users/#{@user.id}"
+    if @user
+      session[:user_id] = @user.id
+      erb :"/users/#{@user.id}"
+    else
+      flash[:notice] = "Oops! Try again"
+      redirect to '/login'
+    end
   end
 
   get '/users/:id' do
@@ -40,4 +45,9 @@ class UsersController < ApplicationController
       redirect to '/login'
     end
   end
+
+  post '/links/new' do
+    binding.pry
+  end
+
 end
