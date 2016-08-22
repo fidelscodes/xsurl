@@ -40,7 +40,7 @@ class UsersController < ApplicationController
   get '/users/:id' do
     @user = User.find_by(id: params[:id])
     if logged_in?
-      erb :'/users/show'
+      erb :"/users/show" # this cannot be a redirect!
     else
       redirect to '/login'
     end
@@ -49,9 +49,10 @@ class UsersController < ApplicationController
   post '/links/new' do
     @link = Link.create(params)
     url_field_empty = params[:url].blank?
+    @link.create_short_url # no need to save, this method saves the instance
+    current_user.links << @link
 
-    # binding.pry
-    redirect to '/users/:id'
+    redirect to "/users/#{current_user.id}"
   end
 
 end
