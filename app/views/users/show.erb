@@ -36,6 +36,10 @@
 <ol>
   <% @user.links.each do |link| %>
   <div class="row">
+    <h4>Original URL</h4>
+    <%= link.url %>
+  </div>
+  <div class="row">
   <li class="well well-sm col-sm-6">
     <a href="/<%= link.random_hex_string %>" id="copy-target"><%= link.short_url %></a>
   </li>
