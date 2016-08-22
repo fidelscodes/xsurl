@@ -52,10 +52,9 @@ class UsersController < ApplicationController
   # CREATE a new link
   post '/links/new' do
     @link = Link.create(params)
-    url_field_empty = params[:url].blank?
+    # url_field_empty = params[:url].blank?
     @link.create_short_url # no need to save, this method saves the instance
     current_user.links << @link
-
     # flash[:notice] = "Successfully created a new xsURL!"
     redirect to "/users/#{current_user.id}"
   end
@@ -72,6 +71,10 @@ class UsersController < ApplicationController
 
   patch '/links/:id/edit' do
     @link = Link.find_by(id: params[:id])
+    @link.update(url: params[:url])
+    if !params[:link_name].blank?
+      @link.update(link_name: params[:link_name])
+    end
     redirect to "/users/#{current_user.id}"
   end
 

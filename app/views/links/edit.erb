@@ -1,23 +1,31 @@
-<h1><%= current_user.username %>'s Dashboard - Edit Link</h1>
+<h1><%= current_user.username %>'s Dashboard</h1>
 <br>
 <form class="form-horizontal" action="/links/<%= @link.id %>/edit" method="post">
   <input id="hidden" type="hidden" name="_method" value="patch">
   <fieldset>
-    <legend>Edit this link - Enter corrected URL</legend>
+    <legend class="col-xs-12">Edit this link - Enter corrected information</legend>
     <div class="form-group">
-      <div class="col-sm-10 col-sm-offset-1">
+      <label for="link_url" class="col-xs-1 control-label">Link</label>
+      <div class="col-xs-6">
         <input type="text" class="form-control" name= "url" id="link_url" value="<%= @link.url %>" autofocus required>
       </div>
     </div>
     <div class="form-group">
-      <div class="col-sm-10 col-sm-offset-1">
+      <label for="site_name" class="col-xs-1 control-label">Name</label>
+      <div class="col-xs-6">
+        <input type="text" class="form-control" name= "site_name" id="link_url" value="<%= @link.site_name unless @link.site_name.blank? %>">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="site_name" class="col-xs-1 control-label">xsURL</label>
+      <div class="col-xs-6">
         <input type="text" class="form-control" name= "short_url" id="short_url" value="<%= @link.short_url %>" autofocus required disabled>
       </div>
     </div>
     <div class="form-group">
-     <div class="col-sm-10 col-sm-offset-1">
+     <div class="col-xs-6 col-xs-offset-1">
        <a href="/users/<%= current_user.id %>"><button type="submit" class="btn btn-default">Cancel</button></a>
-       <button type="submit" class="btn btn-primary">Submit</button>
+       <button type="submit" class="btn btn-primary">Update</button>
      </div>
    </div>
   </fieldset>

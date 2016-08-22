@@ -11,13 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160822035907) do
+ActiveRecord::Schema.define(version: 20160822220647) do
 
   create_table "links", force: :cascade do |t|
-    t.text    "url"
-    t.string  "short_url"
-    t.string  "random_hex_string"
-    t.integer "user_id"
+    t.text     "url"
+    t.string   "short_url"
+    t.string   "random_hex_string"
+    t.integer  "user_id"
+    t.string   "site_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|
