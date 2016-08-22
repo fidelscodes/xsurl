@@ -1,21 +1,43 @@
 class UsersController < ApplicationController
   get '/signup' do
-    erb :'/users/new'
+    if logged_in?
+      redirect to "/users/:id"
+    else
+      erb :'/users/new'
+    end
   end
 
   post '/signup' do
+    params_has_empty_value = params.values.any? {|val| val.empty? || val.nil?}
+    if params_has_empty_value
+      redirect to "/signup"
+    end
+
     @user = User.create(params)
     session[:user_id] = @user.id
-    erb :"/users/#{@user.id}/show" # make it redirect to /users/show
+    redirect to "/users/#{current_user.id}"
   end
 
   get '/login' do
-    erb :'/users/login'
+    if logged_in?
+      redirect to "/users/#{current_user.id}"
+    else
+      erb :'/users/login'
+    end
   end
 
   post '/login' do
-    @user = User.find_by(params[:username])
+    @user = User.find_by(username: params[:username])
     session[:user_id] = @user.id
-    erb :"/users/#{@user.id}/show"
+    erb :"/users/#{@user.id}"
+  end
+
+  get '/users/:id' do
+    @user = User.find_by(id: params[:id])
+    if logged_in?
+      erb :'/users/show'
+    else
+      redirect to '/login'
+    end
   end
 end
