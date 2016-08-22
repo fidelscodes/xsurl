@@ -1,5 +1,16 @@
 class UsersController < ApplicationController
 
+  # GET a link and REDIRECT to original url
+  get '/:random_hex_string' do
+    @link = Link.find_by(random_hex_string: params[:random_hex_string])
+    if @link
+      redirect to @link.url
+    else
+      # notify there is no such link
+      redirect to '/login'
+    end
+  end
+
   get '/signup' do
     if logged_in?
       redirect to "/users/:id"
