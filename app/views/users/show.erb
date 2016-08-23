@@ -46,10 +46,10 @@
   </div>
   <div class="row">
     <li class="well well-sm col-sm-6">
-      <a href="/<%= link.random_hex_string %>" id="copy-target"><%= link.short_url %></a>
+      <a href="/<%= link.random_hex_string %>" id="link-id-<%= link.id %>"><%= link.short_url %></a>
     </li>
     <div class="form-group col-sm-4" style="display: inline;">
-        <button type="button" class="btn btn-success" data-clipboard-target="#copy-target">Copy to Clipboard</button>
+        <button type="button" class="btn btn-success" data-clipboard-target="#link-id-<%= link.id %>">Copy to Clipboard</button>
         <a href="/links/<%= link.id %>/edit" style="padding-left: 5px"><button type="submit" class="btn btn-warning">Edit</button></a>
         <form action="/links/<%= link.id %>/delete" method="post" style="display: inline-block">
           <input id="hidden" type="hidden" name="_method" value="delete">
