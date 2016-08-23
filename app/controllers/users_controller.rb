@@ -72,8 +72,8 @@ class UsersController < ApplicationController
   patch '/links/:id/edit' do
     @link = Link.find_by(id: params[:id])
     @link.update(url: params[:url])
-    if !params[:link_name].blank?
-      @link.update(link_name: params[:link_name])
+    if !params[:site_name].blank?
+      @link.update(site_name: params[:site_name])
     end
     redirect to "/users/#{current_user.id}"
   end
