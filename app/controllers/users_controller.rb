@@ -17,7 +17,7 @@ class UsersController < ApplicationController
 
     @user = User.create(params)
     session[:user_id] = @user.id
-    flash[:notice] = "Welcome to your dashboard, "
+    flash[:notice] = "Welcome to your dashboard, #{@user.username}!"
     redirect to "/users/#{current_user.id}"
   end
 
@@ -45,6 +45,7 @@ class UsersController < ApplicationController
     if logged_in?
       erb :"/users/show" # this cannot be a redirect!
     else
+      flash[:notice] = "Oops... Try that again, please."
       redirect to '/login'
     end
   end
@@ -75,6 +76,7 @@ class UsersController < ApplicationController
     if !params[:site_name].blank?
       @link.update(site_name: params[:site_name])
     end
+    flash[:notice] = "Successfully updated link."
     redirect to "/users/#{current_user.id}"
   end
 
@@ -82,6 +84,7 @@ class UsersController < ApplicationController
   delete '/links/:id/delete' do
     @link = Link.find_by(id: params[:id])
     @link.destroy
+    flash[:notice] = "Successfully deleted link."
     redirect to "/users/#{current_user.id}"
   end
 
