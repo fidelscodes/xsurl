@@ -1,8 +1,8 @@
-<h1><%= @user.username %>'s Dashboard</h1>
+<h1><%= current_user.username %>'s Dashboard</h1>
 <br>
 <!-- Display flash[:notice] if present -->
 <% if flash.has?(:notice) %>
-<div class="alert alert-dismissible alert-success">
+<div class="alert alert-dismissible alert-success animated fadeInDown">
   <button type="button" class="close" data-dismiss="alert">&times;</button>
   <p><%= flash[:notice] %></p>
   <!-- <p>From this page you can create, edit, and delete your xsURL's.</p>
@@ -36,11 +36,11 @@
 <br><br>
 
 <!-- Display Created Links -->
-<% if !@user.links.empty? %>
+<% if !current_user.links.empty? %>
 <h3>Your created links are below:</h3>
 <hr>
 <ol>
-  <% @user.links.reverse.each do |link| %>
+  <% current_user.links.reverse.each do |link| %>
   <div class="row">
     <h4><%= link.site_name %></h4>
   </div>
@@ -52,7 +52,7 @@
       <button type="button" class="btn btn-success" data-clipboard-target="#link-id-<%= link.id %>">Copy to Clipboard</button>
 
       <a href="/links/<%= link.id %>/edit" style="padding-left: 5px"><button type="submit" class="btn btn-warning">Edit</button></a>
-      
+
       <form action="/links/<%= link.id %>/delete" method="post" style="display: inline-block">
         <input id="hidden" type="hidden" name="_method" value="delete">
         <button type="submit" class="btn btn-danger">Delete</button>

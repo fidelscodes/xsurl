@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   get '/signup' do
     if logged_in?
-      redirect to "/users/:id"
+      redirect "/users/:id"
     else
       erb :'/users/new'
     end
@@ -12,18 +12,19 @@ class UsersController < ApplicationController
   post '/signup' do
     params_has_empty_value = params.values.any? {|val| val.blank?}
     if params_has_empty_value
-      redirect to "/signup"
+      redirect "/signup"
     end
 
     @user = User.create(params)
+    @user.save
     session[:user_id] = @user.id
-    flash[:notice] = "Welcome to your dashboard, #{@user.username}!"
-    redirect to "/users/#{current_user.id}"
+    flash[:notice] = "Welcome to your dashboard, #{current.username}!"
+    redirect "/users/#{current_user.id}"
   end
 
   get '/login' do
     if logged_in?
-      redirect to "/users/#{current_user.id}"
+      redirect "/users/#{current_user.id}"
     else
       erb :'/users/login'
     end
@@ -33,20 +34,20 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect to "/users/#{@user.id}"
+      redirect "/users/#{current_user.id}"
     else
-      redirect to '/login'
+      redirect '/login'
     end
   end
 
   # DISPLAY a user page / USERS/SHOW
   get '/users/:id' do
     @user = User.find_by(id: params[:id])
-    if logged_in?
+    if logged_in? # && @user.id == params[:id]
       erb :"/users/show" # this cannot be a redirect!
     else
       flash[:notice] = "Oops... Try that again, please."
-      redirect to '/login'
+      redirect '/login'
     end
   end
 
@@ -56,17 +57,17 @@ class UsersController < ApplicationController
     # url_field_empty = params[:url].blank?
     @link.create_short_url # no need to save, this method saves the instance
     current_user.links << @link
-    # flash[:notice] = "Successfully created a new xsURL!"
-    redirect to "/users/#{current_user.id}"
+    flash[:notice] = "Successfully created a new link!"
+    redirect "/users/#{current_user.id}"
   end
 
   # EDIT a link
   get '/links/:id/edit' do
     @link = Link.find_by(id: params[:id])
-    if logged_in?
+    if logged_in? && current_user.links.include?(@link)
       erb :'/links/edit'
     else
-      redirect to '/login'
+      redirect '/login'
     end
   end
 
@@ -76,22 +77,26 @@ class UsersController < ApplicationController
     if !params[:site_name].blank?
       @link.update(site_name: params[:site_name])
     end
-    flash[:notice] = "Successfully updated link."
-    redirect to "/users/#{current_user.id}"
+    flash[:notice] = "SUCCESSFULLY UPDATED LINK."
+    redirect "/users/#{current_user.id}"
   end
 
   # DELETE a link
   delete '/links/:id/delete' do
     @link = Link.find_by(id: params[:id])
     @link.destroy
-    flash[:notice] = "Successfully deleted link."
-    redirect to "/users/#{current_user.id}"
+    flash[:notice] = "SUCCESSFULLY DELETED LINK."
+    redirect "/users/#{current_user.id}"
   end
 
   get '/logout' do
-    flash[:notice] = "You've successfully logged out."
-    session.clear
-    redirect to '/'
+    if logged_in?
+      session.clear
+      flash[:notice] = "YOU HAVE BEEN LOGGED OUT."
+      redirect '/'
+    else
+      redirect '/'
+    end
   end
 
 end
