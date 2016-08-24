@@ -16,9 +16,9 @@ class UsersController < ApplicationController
     end
 
     @user = User.create(params)
-    @user.save
+    # @user.save
     session[:user_id] = @user.id
-    flash[:notice] = "Welcome to your dashboard, #{current.username}!"
+    flash[:notice] = "Welcome to your dashboard, #{current_user.username}!"
     redirect "/users/#{current_user.id}"
   end
 
@@ -36,6 +36,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect "/users/#{current_user.id}"
     else
+      flash[:notice] = "Oops... Try again, or Signup first."
       redirect '/login'
     end
   end
@@ -83,10 +84,14 @@ class UsersController < ApplicationController
 
   # DELETE a link
   delete '/links/:id/delete' do
-    @link = Link.find_by(id: params[:id])
-    @link.destroy
-    flash[:notice] = "SUCCESSFULLY DELETED LINK."
-    redirect "/users/#{current_user.id}"
+    if logged_in?
+      @link = Link.find_by(id: params[:id])
+      @link.destroy
+      flash[:notice] = "SUCCESSFULLY DELETED LINK."
+      redirect "/users/#{current_user.id}"
+    else
+      redirect '/login'
+    end
   end
 
   get '/logout' do
