@@ -46,16 +46,18 @@
   </div>
   <div class="row">
     <li class="well well-sm col-sm-6">
-      <a href="/<%= link.random_hex_string %>" id="link-id-<%= link.id %>"><%= link.short_url %></a>
+      <a href="/<%= link.random_hex_string %>" id="link-id-<%= link.id %>" target="_blank"><%= link.short_url %></a>
     </li>
-    <div class="form-group col-sm-4" style="display: inline;">
+    <div class="form-group col-sm-6" style="display: inline-block; margin-top: 3px;">
       <a href="#myModal" role="button" class="btn btn-primary" data-toggle="modal"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a>
+
       <button type="button" class="btn btn-success" data-clipboard-target="#link-id-<%= link.id %>">Copy to Clipboard</button>
 
-      <a href="/links/<%= link.id %>/edit" style="padding-left: 5px"><button type="submit" class="btn btn-warning">Edit</button></a>
+      <a href="/links/<%= link.id %>/edit" style="padding-left: 2px"><button type="submit" class="btn btn-warning">Edit</button></a>
 
-      <form action="/links/<%= link.id %>/delete" method="post" style="display: inline-block">
+      <form action="/links/<%= link.id %>/delete" method="post" style="display: inline-block;">
         <input id="hidden" type="hidden" name="_method" value="delete">
+
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
     </div>
@@ -71,14 +73,32 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">Share your link!</h3>
+        <h3 id="myModalLabel" class="text-center">Share your link!</h3>
       </div>
       <div class="modal-body">
-        <form class="form-horizontal col-sm-12">
-          <div class="form-group"><label>xsURL</label><input class="form-control required" data-placement="top" data-trigger="manual" type="text" value=""disabled></div>
-          <div class="form-group"><label>E-Mail</label><input class="form-control email" placeholder="Enter an email address" data-placement="top" data-trigger="manual" data-content="Must be a valid e-mail address (user@gmail.com)" type="email" name="email" autofocus></div>
-          <div class="form-group"><label>Description</label><input class="form-control phone" placeholder="Description" data-placement="top" data-trigger="manual" type="text"></div>
-          <div class="form-group"><button type="submit" class="btn btn-success pull-right">Send It!</button> <p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not valid. </p></div>
+        <form action="/email" class="form-horizontal col-sm-12" method="post">
+          <div class="form-group">
+            <label>Link</label>
+            <input class="form-control required" data-placement="top" data-trigger="manual" type="text" name="link" placeholder="Paste link" autofocus>
+          </div>
+          <!-- Using jquery, I should be able to modify the VALUE of xsurl to the value of the link that preceeds the button -->
+          <div class="form-group">
+            <label>Send to</label>
+            <input class="form-control email" placeholder="Enter an email address" data-placement="top" data-trigger="manual" data-content="Must be a valid e-mail address (user@gmail.com)" type="email" name="send_to">
+          </div>
+          <!-- <div class="form-group"><label>From</label><input class="form-control email" placeholder="Enter an email address" data-placement="top" data-trigger="manual" data-content="Must be a valid e-mail address (user@gmail.com)" type="email" name="send_from"></div> -->
+          <div class="form-group">
+            <label>Subject</label>
+            <input class="form-control email" placeholder="Enter an email address" data-placement="top" data-trigger="manual" type="text" name="subject">
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input class="form-control" placeholder="Description (optional)" data-placement="top" data-trigger="manual" type="text" name="email_body">
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-success pull-right">Send It!</button><p class="help-block pull-left text-danger hide" id="form-error">&nbsp; The form is not valid. </p>
+          </div>
         </form>
       </div>
       <div class="modal-footer">
@@ -98,4 +118,6 @@
   clipboard.on('error', function(e) {
     console.log(e);
   });
+
+
 </script>

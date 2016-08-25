@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   # CREATE a new user
   post '/signup' do
     params_has_empty_value = params.values.any? {|val| val.blank?}
+
     if params_has_empty_value
       redirect "/signup"
     end
@@ -34,6 +35,7 @@ class UsersController < ApplicationController
     @user = User.find_by(username: params[:username])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
+      flash[:notice] = "Welcome back, #{@user.username}"
       redirect "/users/#{current_user.id}"
     else
       flash[:notice] = "Oops... Try again, or Signup first."
@@ -78,7 +80,7 @@ class UsersController < ApplicationController
     if !params[:site_name].blank?
       @link.update(site_name: params[:site_name])
     end
-    flash[:notice] = "SUCCESSFULLY UPDATED LINK."
+    flash[:notice] = "Successfully updated link."
     redirect "/users/#{current_user.id}"
   end
 
@@ -87,7 +89,7 @@ class UsersController < ApplicationController
     if logged_in?
       @link = Link.find_by(id: params[:id])
       @link.destroy
-      flash[:notice] = "SUCCESSFULLY DELETED LINK."
+      flash[:notice] = "Successfully deleted link."
       redirect "/users/#{current_user.id}"
     else
       redirect '/login'
@@ -97,7 +99,7 @@ class UsersController < ApplicationController
   get '/logout' do
     if logged_in?
       session.clear
-      flash[:notice] = "YOU HAVE BEEN LOGGED OUT."
+      flash[:notice] = "Bye, bye, bye..."
       redirect '/'
     else
       redirect '/'
